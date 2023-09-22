@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import RecipeForm from '../src/components/RecipeForm/RecipeForm';
+import RecipeList from './components/RecipeList/RecipeList';
 
-function App() {
+const App = () => {
+  const [recipes, setRecipes] = useState([]);
+
+  const handleAddRecipe = (newRecipe) => {
+    setRecipes([...recipes, newRecipe]);
+  };
+
+  const handleDelete = (index) => {
+    const updatedRecipes = [...recipes];
+    updatedRecipes.splice(index, 1);
+    setRecipes(updatedRecipes);
+  };
+  
+  const handleEdit = (index, updatedRecipe) => {
+    const updatedRecipes = [...recipes];
+    updatedRecipes[index] = updatedRecipe;
+    setRecipes(updatedRecipes);
+  };
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <h1>Meal Mixer</h1>
+      <RecipeForm onAddRecipe={handleAddRecipe} />
+      <RecipeList recipes={recipes} onDeleteRecipe={handleDelete} onEditRecipe={handleEdit} />
+
     </div>
   );
-}
+};
 
 export default App;
