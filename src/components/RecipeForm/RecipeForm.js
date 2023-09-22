@@ -44,7 +44,7 @@ const RecipeForm = ({ onAddRecipe }) => {
                 <textarea
                     value={ingredients}
                     onChange={(e) => setIngredients(e.target.value)}
-                    required
+                    
                 />
             </div>
             <div>
@@ -52,7 +52,7 @@ const RecipeForm = ({ onAddRecipe }) => {
                 <textarea
                     value={instructions}
                     onChange={(e) => setInstructions(e.target.value)}
-                    required
+                    
                 />
             </div>
             <div>
