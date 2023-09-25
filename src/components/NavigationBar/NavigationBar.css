@@ -1,3 +1,7 @@
 .rounded-circle {
     object-fit: cover;
 }
+
+.nav-link .dropdown-toggle::after {
+    display: none;
+}
