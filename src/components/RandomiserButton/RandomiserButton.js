@@ -1,5 +1,4 @@
 import React from 'react';
-import './RandomiserButton.css';
 
 const RandomiserButton = ({ recipes, onRandomize }) => {
     const getRandomRecipe = (mealType) => {
@@ -19,7 +18,7 @@ const RandomiserButton = ({ recipes, onRandomize }) => {
     };
 
     return (
-        <button className="randomizer-button" onClick={handleRandomize}>
+        <button className="btn btn-primary mt-3" onClick={handleRandomize}>
             Randomize Meals
         </button>
     );
