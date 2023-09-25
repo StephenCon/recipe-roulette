@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Navbar, NavDropdown, Nav } from 'react-bootstrap';
+import './NavigationBar.css';
 
 const NavigationBar = () => {
     const [show, setShow] = useState(false);
@@ -12,7 +13,7 @@ const NavigationBar = () => {
                 <Nav>
                     <Nav.Link eventKey={2} onMouseOver={() => setShow(true)} onMouseLeave={() => setShow(false)}>
                         <img
-                            src="path_to_your_image.jpg" 
+                            src="path_to_your_image.jpg"
                             alt="Profile"
                             className="rounded-circle"
                             width="40" height="40"
