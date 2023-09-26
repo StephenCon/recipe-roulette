@@ -2,6 +2,14 @@
     object-fit: cover;
 }
 
+.rounded-circle:hover {
+    transform: scale(1.1);
+}
+
 .nav-link .dropdown-toggle::after {
     display: none;
+}
+
+.navbar-brand {
+    font-size: 3em;
 }

@@ -42,7 +42,6 @@ const App = () => {
     <div className="container">
       {/* Navigation Bar  */}
       <NavigationBar />
-      <h1 className="text-center mb-4">Meal Mixer</h1>
       {/* Display the randomized meals */}
       <MealDisplay meals={randomMeals} />
       {/* Recipe form to add a new recipe */}
