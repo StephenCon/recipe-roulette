@@ -39,7 +39,7 @@ const App = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container p-4">
       {/* Navigation Bar  */}
       <NavigationBar />
       {/* Display the randomized meals */}
