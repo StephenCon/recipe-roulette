@@ -23,7 +23,7 @@ const NavigationBar = () => {
                                 src={profile_image} // Profile image
                                 alt="Profile" // Alt text for the image
                                 className="rounded-circle" // Rounded image style
-                                width="65" height="65"
+                                width="50" height="50"
                             />
                         }
                         show={show} // Control the dropdown display based on state
