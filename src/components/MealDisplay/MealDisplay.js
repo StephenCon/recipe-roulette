@@ -1,4 +1,5 @@
 import React from 'react';
+import './MealDisplay.css';
 
 // MealDisplay is a stateless functional component that displays meals for the day.
 // It expects a `meals` prop which contains objects for breakfast, lunch, and dinner.
@@ -10,7 +11,7 @@ const MealDisplay = ({ meals }) => {
             <div className="row">
 
                 {/* Breakfast Section */}
-                <div className="col-md-4 meal-section">
+                <div className="col-md-4 meal-section text-center border rounded p-3">
                     <h3>Breakfast</h3>
                     {/* Check if there's a breakfast meal, if so display its details, otherwise show a default message */}
                     {meals.breakfast ? (
@@ -25,7 +26,7 @@ const MealDisplay = ({ meals }) => {
                 </div>
 
                 {/* Lunch Section */}
-                <div className="col-md-4 meal-section">
+                <div className="col-md-4 meal-section text-center border rounded p-3">
                     <h3>Lunch</h3>
                     {/* Check if there's a lunch meal, if so display its details, otherwise show a default message */}
                     {meals.lunch ? (
@@ -40,7 +41,7 @@ const MealDisplay = ({ meals }) => {
                 </div>
 
                 {/* Dinner Section */}
-                <div className="col-md-4 meal-section">
+                <div className="col-md-4 meal-section text-center border rounded p-3">
                     <h3>Dinner</h3>
                     {/* Check if there's a dinner meal, if so display its details, otherwise show a default message */}
                     {meals.dinner ? (

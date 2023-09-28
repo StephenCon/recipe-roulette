@@ -1,1 +1,4 @@
-/* commented until later */
+.meal-section {
+    margin: 0 auto; /* Center the sections horizontally */
+    max-width: 80%; /* Limit the width to 80% of the parent container */
+}
