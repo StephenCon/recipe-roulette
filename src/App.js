@@ -6,6 +6,7 @@ import RecipeList from './components/RecipeList/RecipeList';
 import MealDisplay from './components/MealDisplay/MealDisplay';
 import RandomiserButton from './components/RandomiserButton/RandomiserButton';
 import NavigationBar from './components/NavigationBar/NavigationBar';
+import Footer from './components/Footer/Footer';
 
 const App = () => {
   // State to store the list of recipes
@@ -39,17 +40,20 @@ const App = () => {
   };
 
   return (
-    <div className="container p-4">
+    <div className="container">
       {/* Navigation Bar  */}
       <NavigationBar />
-      {/* Display the randomized meals */}
-      <MealDisplay meals={randomMeals} />
+      <div className='container'>
+        {/* Display the randomized meals */}
+        <MealDisplay meals={randomMeals} />
+        {/* Button to trigger the randomization of meals */}
+        <RandomiserButton recipes={recipes} onRandomize={handleRandomizedMeals} />
+      </div>
       {/* Recipe form to add a new recipe */}
       <RecipeForm onAddRecipe={handleAddRecipe} />
       {/* List display of all recipes with options to edit or delete */}
       <RecipeList recipes={recipes} onDeleteRecipe={handleDelete} onEditRecipe={handleEdit} />
-      {/* Button to trigger the randomization of meals */}
-      <RandomiserButton recipes={recipes} onRandomize={handleRandomizedMeals} />
+      <Footer />
     </div>
   );
 };
