@@ -1,15 +1,32 @@
+/* Style for the brand */
+.navbar-brand {
+    font-size: 3em;
+}
+
+/* Remove the dropdown arrow */
+.dropdown-toggle::after {
+    display: none;
+}
+
+/* Remove default anchor styles */
+.navbar-nav .nav-link {
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+}
+
+/* Adjustments for the profile image */
 .rounded-circle {
     object-fit: cover;
+    margin: 0;
+    display: block;
 }
 
 .rounded-circle:hover {
     transform: scale(1.1);
 }
 
-.nav-link .dropdown-toggle::after {
-    display: none;
-}
-
-.navbar-brand {
-    font-size: 3em;
+/* Adjustments for the NavDropdown title */
+.nav-dropdown {
+    display: inline-block;
 }
