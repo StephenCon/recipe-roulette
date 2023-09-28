@@ -17,8 +17,6 @@ const MealDisplay = ({ meals }) => {
                     {meals.breakfast ? (
                         <div>
                             <strong>{meals.breakfast.name}</strong>
-                            <p>Ingredients: {meals.breakfast.ingredients.join(', ')}</p>
-                            <p>Instructions: {meals.breakfast.instructions}</p>
                         </div>
                     ) : (
                         <p>No breakfast recipe selected.</p>
@@ -32,8 +30,6 @@ const MealDisplay = ({ meals }) => {
                     {meals.lunch ? (
                         <div>
                             <strong>{meals.lunch.name}</strong>
-                            <p>Ingredients: {meals.lunch.ingredients.join(', ')}</p>
-                            <p>Instructions: {meals.lunch.instructions}</p>
                         </div>
                     ) : (
                         <p>No lunch recipe selected.</p>
@@ -46,9 +42,7 @@ const MealDisplay = ({ meals }) => {
                     {/* Check if there's a dinner meal, if so display its details, otherwise show a default message */}
                     {meals.dinner ? (
                         <div>
-                            <strong>{meals.dinner.name}</strong>
-                            <p>Ingredients: {meals.dinner.ingredients.join(', ')}</p>
-                            <p>Instructions: {meals.dinner.instructions}</p>
+                            <strong>{meals.dinner.name}</strong>                            
                         </div>
                     ) : (
                         <p>No dinner recipe selected.</p>
