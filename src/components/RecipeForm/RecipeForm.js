@@ -25,8 +25,7 @@ const RecipeForm = ({ onAddRecipe }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="container mt-5 shadow p-4 bg-white rounded">
-            <h3 className="mb-4 text-center">Add New Recipe</h3>
+        <form onSubmit={handleSubmit} className="container bg-white rounded">
             <div className="mb-3">
                 <label className="form-label">Recipe Name:</label>
                 <input

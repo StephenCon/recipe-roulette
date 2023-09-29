@@ -44,7 +44,7 @@ const RecipeList = ({ recipes, onDeleteRecipe, onEditRecipe, onAddRecipe }) => {
 
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add Recipe</Modal.Title>
+                    <Modal.Title>Add New Recipe</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <RecipeForm onAddRecipe={handleFormSubmit} />

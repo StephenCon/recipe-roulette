@@ -35,7 +35,7 @@ const App = () => {
     <div className="container">
       <NavigationBar />
       <hr className="hr" />
-      <div className='container border rounded'>
+      <div className='container shadow rounded'>
         <MealDisplay meals={randomMeals} />
         <RandomiserButton recipes={recipes} onRandomize={handleRandomizedMeals} />        
       </div>
