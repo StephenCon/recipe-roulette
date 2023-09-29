@@ -33,8 +33,6 @@ const RecipeList = ({ recipes, onDeleteRecipe, onEditRecipe, onAddRecipe }) => {
                         <div key={index} className="col-md-3 mb-4">
                             <div className="recipe-card p-3 border rounded">
                                 <h3 className="mb-2">{recipe.name}</h3>
-                                <p><strong>Ingredients:</strong> {recipe.ingredients.join(', ')}</p>
-                                <p><strong>Instructions:</strong> {recipe.instructions}</p>
                                 <p><strong>Meal Type:</strong> {recipe.mealType}</p>
                                 <Button variant="outline-secondary" className="mr-2" onClick={() => onEditRecipe(index)}>Edit</Button>
                                 <Button variant="outline-danger" onClick={() => onDeleteRecipe(index)}>Delete</Button>
