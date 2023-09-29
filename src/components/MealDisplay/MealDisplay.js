@@ -4,7 +4,7 @@ import './MealDisplay.css';
 
 const MealDisplay = ({ meals, recipes, onRandomize }) => {
     return (
-        <div className="meal-display container mt-5 p-4 rounded">
+        <div className="meal-display container p-4 rounded">
             {/* Title and RandomiserButton on the same row */}
             <div className="d-flex justify-content-between align-items-center">
                 <h2>Today's Meals</h2>

@@ -13,7 +13,7 @@ const RecipeList = ({ recipes, onDeleteRecipe, onEditRecipe, onAddRecipe }) => {
 
     return (
         <div className="recipe-list container mt-5 shadow p-4 bg-white rounded">
-            <div className="row align-items-center mb-4">
+            <div className="row align-items-center">
                 <div className="col">
                     <h2>Recipes</h2>
                 </div>
