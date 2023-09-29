@@ -4,4 +4,20 @@ Recipe Roulette is a fun and interactive web application designed to help users 
 
 ## Features
 ### Add New Recipes
-Easily add new recipes with ingredients, instructions, and meal type.
+Easily add new recipes with type.
+
+### Manage Recipes
+Edit or delete existing recipes with a simple click.
+
+### Randomised Meal Plan
+Not sure what to eat? Let Recipe Roulette decide for you! With a single click, get a randomized meal plan for breakfast, lunch, and dinner.
+
+### Responsive Design
+Recipe Roulette is designed to look great on both desktop and mobile devices.
+
+## Getting Started
+### Prerequisites
+Node.js
+npm
+
+### Installation
