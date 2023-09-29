@@ -28,19 +28,22 @@ const RecipeList = ({ recipes, onDeleteRecipe, onEditRecipe, onAddRecipe }) => {
             {recipes.length === 0 ? (
                 <p>No recipes added yet.</p>
             ) : (
-                <ul className="list-unstyled">
+                <div className="row">
                     {recipes.map((recipe, index) => (
-                        <li key={index} className="mb-4 border-bottom pb-3">
-                            <h3 className="mb-2">{recipe.name}</h3>
-                            <p><strong>Ingredients:</strong> {recipe.ingredients.join(', ')}</p>
-                            <p><strong>Instructions:</strong> {recipe.instructions}</p>
-                            <p><strong>Meal Type:</strong> {recipe.mealType}</p>
-                            <Button variant="outline-secondary" className="mr-2" onClick={() => onEditRecipe(index)}>Edit</Button>
-                            <Button variant="outline-danger" onClick={() => onDeleteRecipe(index)}>Delete</Button>
-                        </li>
+                        <div key={index} className="col-md-3 mb-4">
+                            <div className="recipe-card p-3 border rounded">
+                                <h3 className="mb-2">{recipe.name}</h3>
+                                <p><strong>Ingredients:</strong> {recipe.ingredients.join(', ')}</p>
+                                <p><strong>Instructions:</strong> {recipe.instructions}</p>
+                                <p><strong>Meal Type:</strong> {recipe.mealType}</p>
+                                <Button variant="outline-secondary" className="mr-2" onClick={() => onEditRecipe(index)}>Edit</Button>
+                                <Button variant="outline-danger" onClick={() => onDeleteRecipe(index)}>Delete</Button>
+                            </div>
+                        </div>
                     ))}
-                </ul>
+                </div>
             )}
+
 
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
