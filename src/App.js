@@ -44,19 +44,19 @@ const App = () => {
       {/* Navigation Bar  */}
       <NavigationBar />
       <hr className="hr" />
-      <div className='container'>
+      <div className='container border rounded'>
         {/* Display the randomized meals */}
         <MealDisplay meals={randomMeals} />
         {/* Button to trigger the randomization of meals */}
-        <RandomiserButton recipes={recipes} onRandomize={handleRandomizedMeals} />
-        <hr className="hr" />
+        <RandomiserButton recipes={recipes} onRandomize={handleRandomizedMeals} />        
       </div>
-      {/* Recipe form to add a new recipe */}
-      <RecipeForm onAddRecipe={handleAddRecipe} />
-      <hr class="hr" />
       {/* List display of all recipes with options to edit or delete */}
       <RecipeList recipes={recipes} onDeleteRecipe={handleDelete} onEditRecipe={handleEdit} />
       <hr className="hr" />
+      {/* Recipe form to add a new recipe */}
+      <RecipeForm onAddRecipe={handleAddRecipe} />
+      <hr class="hr" />
+      
       <Footer />
     </div>
   );
