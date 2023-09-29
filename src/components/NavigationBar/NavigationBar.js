@@ -13,8 +13,8 @@ const NavigationBar = () => {
     return (
         <Navbar>
             <Navbar.Brand href="#home">Meal Mixer</Navbar.Brand> {/* Brand Name of the Navbar */}
-            <Navbar.Toggle /> {/* Toggle button for smaller screen sizes */}
-            <Navbar.Collapse className="justify-content-end p-1">
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse className="justify-content-end p-1" id="basic-navbar-nav">
                 <Nav>
                     {/* NavDropdown component with an image as the title */}
                     <NavDropdown
@@ -22,7 +22,7 @@ const NavigationBar = () => {
                             <img
                                 src={profile_image} // Profile image
                                 alt="Profile" // Alt text for the image
-                                className="rounded-circle" // Rounded image style
+                                className="rounded-circle border border-white" // Rounded image style with a white border
                                 width="50" height="50"
                             />
                         }

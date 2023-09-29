@@ -25,7 +25,8 @@ const RecipeForm = ({ onAddRecipe }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="container mt-5">
+        <form onSubmit={handleSubmit} className="container mt-5 shadow p-4 bg-white rounded">
+            <h3 className="mb-4 text-center">Add New Recipe</h3>
             <div className="mb-3">
                 <label className="form-label">Recipe Name:</label>
                 <input
@@ -42,6 +43,7 @@ const RecipeForm = ({ onAddRecipe }) => {
                     value={ingredients}
                     onChange={(e) => setIngredients(e.target.value)}
                     className="form-control"
+                    rows="3"
                 />
             </div>
             <div className="mb-3">
@@ -50,6 +52,7 @@ const RecipeForm = ({ onAddRecipe }) => {
                     value={instructions}
                     onChange={(e) => setInstructions(e.target.value)}
                     className="form-control"
+                    rows="4"
                 />
             </div>
             <div className="mb-3">
@@ -62,7 +65,7 @@ const RecipeForm = ({ onAddRecipe }) => {
                     <option value="All">All</option>
                 </select>
             </div>
-            <button type="submit" className="btn btn-primary">Add Recipe</button>
+            <button type="submit" className="btn btn-primary w-100">Add Recipe</button>
         </form>
     );
 };

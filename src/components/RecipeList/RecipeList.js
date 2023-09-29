@@ -12,7 +12,7 @@ const RecipeList = ({ recipes, onDeleteRecipe, onEditRecipe, onAddRecipe }) => {
     };
 
     return (
-        <div className="recipe-list">
+        <div className="recipe-list container mt-5 shadow p-4 bg-white rounded">
             <div className="row align-items-center mb-4">
                 <div className="col">
                     <h2>Recipes</h2>
@@ -22,20 +22,21 @@ const RecipeList = ({ recipes, onDeleteRecipe, onEditRecipe, onAddRecipe }) => {
                         <span className="font-weight-bold">+</span>
                     </Button>
                 </div>
+                <hr className="hr" />
             </div>
 
             {recipes.length === 0 ? (
                 <p>No recipes added yet.</p>
             ) : (
-                <ul>
+                <ul className="list-unstyled">
                     {recipes.map((recipe, index) => (
-                        <li key={index}>
-                            <h3>{recipe.name}</h3>
+                        <li key={index} className="mb-4 border-bottom pb-3">
+                            <h3 className="mb-2">{recipe.name}</h3>
                             <p><strong>Ingredients:</strong> {recipe.ingredients.join(', ')}</p>
                             <p><strong>Instructions:</strong> {recipe.instructions}</p>
                             <p><strong>Meal Type:</strong> {recipe.mealType}</p>
-                            <button onClick={() => onEditRecipe(index)}>Edit</button>
-                            <button onClick={() => onDeleteRecipe(index)}>Delete</button>
+                            <Button variant="outline-secondary" className="mr-2" onClick={() => onEditRecipe(index)}>Edit</Button>
+                            <Button variant="outline-danger" onClick={() => onDeleteRecipe(index)}>Delete</Button>
                         </li>
                     ))}
                 </ul>

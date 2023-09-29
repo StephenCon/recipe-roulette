@@ -45,7 +45,6 @@ const App = () => {
           onEditRecipe={handleEdit} 
           onAddRecipe={handleAddRecipe}  // Passing the onAddRecipe prop
       />
-      <hr className="hr" />      
       <Footer />
     </div>
   );

@@ -18,7 +18,7 @@ const RandomiserButton = ({ recipes, onRandomize }) => {
     };
 
     return (
-        <button className="btn btn-primary mt-3" onClick={handleRandomize}>
+        <button className="btn btn-primary" onClick={handleRandomize}>
             Randomize Meals
         </button>
     );
