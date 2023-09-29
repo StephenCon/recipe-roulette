@@ -1,13 +1,18 @@
 import React from 'react';
+import RandomiserButton from '../RandomiserButton/RandomiserButton'; // Importing RandomiserButton
 import './MealDisplay.css';
 
-const MealDisplay = ({ meals }) => {
+const MealDisplay = ({ meals, recipes, onRandomize }) => {
     return (
-        <div className="meal-display container mt-5">
-            {/* Title Section */}
-            <h2 className="text-center mb-4">Today's Meals</h2>
+        <div className="meal-display container mt-5 p-4 rounded">
+            {/* Title and RandomiserButton on the same row */}
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                <h2>Today's Meals</h2>
+                {/* Adding RandomiserButton here */}
+                <RandomiserButton recipes={recipes} onRandomize={onRandomize} />
+            </div>
+            <hr className="hr" />
             <div className="row">
-
                 {/* Breakfast Section */}
                 <div className="col-md-4 mb-3">
                     <div className="card bg-light gradient-card">
