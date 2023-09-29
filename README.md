@@ -3,7 +3,7 @@ Recipe Roulette is a fun and interactive web application designed to help users 
 
 ## Features
 ### Add New Recipes
-Easily add new recipes with type.
+Easily add new recipes with meal type.
 
 ### Manage Recipes
 Edit or delete existing recipes with a simple click.
