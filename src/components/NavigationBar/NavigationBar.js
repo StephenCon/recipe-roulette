@@ -11,7 +11,7 @@ const NavigationBar = () => {
     const [show, setShow] = useState(false);
 
     return (
-        <Navbar>
+        <Navbar className="bg-white">
             <Navbar.Brand href="#home">Meal Mixer</Navbar.Brand> {/* Brand Name of the Navbar */}
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse className="justify-content-end p-1" id="basic-navbar-nav">
