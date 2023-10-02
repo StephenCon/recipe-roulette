@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import RecipeForm from '../RecipeForm/RecipeForm';
+import { Button, Modal } from 'react-bootstrap'; // Assuming Button and Modal are from react-bootstrap
+import RecipeForm from '../RecipeForm/RecipeForm'; // Assuming RecipeForm is located here
 import './RecipeList.css';
 
-const RecipeList = ({ recipes, onDeleteRecipe, onEditRecipe, onAddRecipe }) => {
+const MealDisplay = ({ meals, recipes, onRandomize, onEditRecipe, onDeleteRecipe, onAddRecipe }) => {
     const [showModal, setShowModal] = useState(false);
 
     const handleFormSubmit = (newRecipe) => {
         onAddRecipe(newRecipe);
-        setShowModal(false); // Close the modal after adding the recipe
+        setShowModal(false);
     };
 
     return (
-        <div className="recipe-list container mt-5 shadow p-4 bg-white rounded">
-            <div className="row align-items-center">
+        <div className="recipe-list bg-white container mt-5 p-4 rounded">
+            <div className="row d-flex justify-content-between align-items-center">
                 <div className="col">
                     <h2>Recipes</h2>
                 </div>
@@ -22,15 +22,15 @@ const RecipeList = ({ recipes, onDeleteRecipe, onEditRecipe, onAddRecipe }) => {
                         <span className="font-weight-bold">+</span>
                     </Button>
                 </div>
-                <hr className="hr" />
             </div>
+            <hr className="hr" />
 
             {recipes.length === 0 ? (
                 <p>No recipes added yet.</p>
             ) : (
                 <div className="row">
                     {recipes.map((recipe, index) => (
-                        <div key={index} className="col-md-3 mb-4">
+                        <div key={recipe.id} className="col-md-3 mb-4"> {/* Assuming each recipe has a unique id */}
                             <div className="recipe-card p-3 border rounded">
                                 <h3 className="mb-2">{recipe.name}</h3>
                                 <p><strong>Meal Type:</strong> {recipe.mealType}</p>
@@ -41,7 +41,6 @@ const RecipeList = ({ recipes, onDeleteRecipe, onEditRecipe, onAddRecipe }) => {
                     ))}
                 </div>
             )}
-
 
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
@@ -55,4 +54,4 @@ const RecipeList = ({ recipes, onDeleteRecipe, onEditRecipe, onAddRecipe }) => {
     );
 };
 
-export default RecipeList;
+export default MealDisplay;

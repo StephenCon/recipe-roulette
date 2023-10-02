@@ -52,14 +52,16 @@ const App = () => {
                 {/* Passing recipes and onRandomize to MealDisplay */}
                 <MealDisplay meals={randomMeals} recipes={recipes} onRandomize={handleRandomizedMeals} />
             </div>
-            <RecipeList 
-                recipes={recipes} 
-                onDeleteRecipe={handleDelete} 
-                onEditRecipe={handleEdit} 
-                onAddRecipe={handleAddRecipe}
-            />
+            <div className='container shadow rounded'>
+                <RecipeList
+                    recipes={recipes}
+                    onDeleteRecipe={handleDelete}
+                    onEditRecipe={handleEdit}
+                    onAddRecipe={handleAddRecipe}
+                />
+            </div>
             <Footer />
-        </div>
+        </div >
     );
 };
 
