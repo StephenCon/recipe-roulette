@@ -8,6 +8,12 @@ const SignupForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Basic validation
+        if (username.length < 3 || password.length < 6) {
+            alert('Username must be at least 3 characters and password at least 6 characters long.');
+            return;
+        }
+
         const response = await fetch('http://localhost:3001/register', {
             method: 'POST',
             headers: {
