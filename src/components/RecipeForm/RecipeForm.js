@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 
 const RecipeForm = ({ onAddRecipe }) => {
     const [recipeName, setRecipeName] = useState('');
-    const [ingredients, setIngredients] = useState('');
-    const [instructions, setInstructions] = useState('');
     const [mealType, setMealType] = useState('');
 
     const handleSubmit = (e) => {
@@ -11,16 +9,12 @@ const RecipeForm = ({ onAddRecipe }) => {
 
         const newRecipe = {
             name: recipeName,
-            ingredients: ingredients.split(',').map(ingredient => ingredient.trim()),
-            instructions,
             mealType,
         };
 
         onAddRecipe(newRecipe);
 
         setRecipeName('');
-        setIngredients('');
-        setInstructions('');
         setMealType('');
     };
 
@@ -37,26 +31,13 @@ const RecipeForm = ({ onAddRecipe }) => {
                 />
             </div>
             <div className="mb-3">
-                <label className="form-label">Ingredients (comma-separated):</label>
-                <textarea
-                    value={ingredients}
-                    onChange={(e) => setIngredients(e.target.value)}
-                    className="form-control"
-                    rows="3"
-                />
-            </div>
-            <div className="mb-3">
-                <label className="form-label">Instructions:</label>
-                <textarea
-                    value={instructions}
-                    onChange={(e) => setInstructions(e.target.value)}
-                    className="form-control"
-                    rows="4"
-                />
-            </div>
-            <div className="mb-3">
                 <label className="form-label">Meal Type:</label>
-                <select value={mealType} onChange={(e) => setMealType(e.target.value)} required className="form-select">
+                <select 
+                    value={mealType} 
+                    onChange={(e) => setMealType(e.target.value)} 
+                    required 
+                    className="form-select"
+                >
                     <option value="">Select a meal type</option>
                     <option value="Breakfast">Breakfast</option>
                     <option value="Lunch">Lunch</option>
