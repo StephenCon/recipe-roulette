@@ -1,16 +1,20 @@
 // Importing necessary React and React-Bootstrap components
 import React, { useState } from 'react';
 import { Navbar, NavDropdown, Nav, Modal } from 'react-bootstrap';
-import SignupForm from '../SignUpForm/SignUpForm'; // Import your SignupForm component
+import SignupForm from '../SignUpForm/SignUpForm';
+import LoginForm from '../LoginForm/LoginForm'; // Import your SignupForm component
 import './NavigationBar.css';
 
 // Importing profile image from assets
 import profile_image from '../../assets/images/emptyprofile.png';
 
+
 // NavigationBar component definition
 const NavigationBar = () => {
     // State to control whether the NavDropdown is shown or not
     const [show, setShow] = useState(false);
+
+    const [showLoginModal, setShowLoginModal] = useState(false);
     // State to control the visibility of the Signup Modal
     const [showSignupModal, setShowSignupModal] = useState(false);
 
@@ -35,11 +39,21 @@ const NavigationBar = () => {
                         onMouseOver={() => setShow(true)}
                         onMouseLeave={() => setShow(false)}
                     >
-                        <NavDropdown.Item href="#action/3.1">Login</NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => setShowLoginModal(true)}>Login</NavDropdown.Item>
                         <NavDropdown.Item onClick={() => setShowSignupModal(true)}>Sign Up</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
             </Navbar.Collapse>
+
+            {/* Login Modal */}
+            <Modal show={showLoginModal} onHide={() => setShowLoginModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Login</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <LoginForm />
+                </Modal.Body>
+            </Modal>
 
             {/* Signup Modal */}
             <Modal show={showSignupModal} onHide={() => setShowSignupModal(false)}>
