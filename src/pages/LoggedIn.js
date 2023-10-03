@@ -12,7 +12,7 @@ import NavigationBar from './components/NavigationBar/NavigationBar';
 import Footer from './components/Footer/Footer';
 
 // Main App component
-const App = () => {
+const LoggedIn = () => {
     // State to store the list of recipes
     const [recipes, setRecipes] = useState([]);
 
@@ -66,4 +66,4 @@ const App = () => {
 };
 
 // Exporting the App component for use in other parts of the application
-export default App;
+export default LoggedIn;
