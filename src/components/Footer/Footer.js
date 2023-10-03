@@ -12,7 +12,7 @@ const Footer = () => {
                     <li class="nav-item"><a class="nav-link px-2 text-muted">Random</a></li>
                     <li class="nav-item"><a class="nav-link px-2 text-muted">FAQs</a></li>
                 </ul> */}
-                <p class="text-center text-muted">© {currentYear} MealMingle. All rights reserved.</p>
+                <p class="text-center text-muted">© {currentYear} Recipe Roulette. All rights reserved.</p>
             </footer>
         </div>
     );
