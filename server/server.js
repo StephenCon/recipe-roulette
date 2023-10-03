@@ -32,15 +32,16 @@ MongoClient.connect(uri)
       }
     });
 
-    // Define the /login route
     app.post('/login', async (req, res) => {
       const { username, password } = req.body;
+      console.log('Received:', { username, password });  // Log received username and password
       try {
         const user = await usersCollection.findOne({ username });
+        console.log('Found user:', user);  // Log found user
         if (!user) {
           return res.status(400).send('User not found');
         }
-        if (user.password !== password) { // Note: In a real-world app, never store passwords in plain text
+        if (user.password !== password) {
           return res.status(400).send('Invalid password');
         }
         res.status(200).send('Logged in successfully');
@@ -49,6 +50,7 @@ MongoClient.connect(uri)
         res.status(500).send('Internal Server Error');
       }
     });
+
 
     // Start the server
     app.listen(port, () => {
