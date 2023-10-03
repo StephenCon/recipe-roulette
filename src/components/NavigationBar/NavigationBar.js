@@ -13,7 +13,7 @@ import profile_image from '../../assets/images/emptyprofile.png';
 const NavigationBar = () => {
     // State to control whether the NavDropdown is shown or not
     const [show, setShow] = useState(false);
-
+    // State to control the visibility of the Login Modal
     const [showLoginModal, setShowLoginModal] = useState(false);
     // State to control the visibility of the Signup Modal
     const [showSignupModal, setShowSignupModal] = useState(false);
