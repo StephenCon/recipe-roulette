@@ -1,10 +1,10 @@
 import React from 'react';
 import NavigationBar from '../components/NavigationBar/NavigationBar';
 import HeroSection from '../components/HeroSection/HeroSection';
-/*import Features from '../components/Feature/Feature';
+/* import Features from '../components/Feature/Feature';
 import HowItWorks from '../components/HowItWorks/HowItWorks';
-import Testimonials from '../components/Testimonials/Testimonials';
-import Footer from '../components/Footer/Footer'; */
+import Testimonials from '../components/Testimonials/Testimonials';*/
+import Footer from '../components/Footer/Footer'; 
 
 
 function App() {
@@ -12,10 +12,7 @@ function App() {
         <div className="App">
             <NavigationBar />
             <HeroSection />
-            {/* <Features />
-            <HowItWorks />
-            <Testimonials />
-            <Footer /> */}
+            <Footer />            
         </div>
     );
 }
