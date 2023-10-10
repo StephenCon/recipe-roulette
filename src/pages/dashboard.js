@@ -1,15 +1,15 @@
 // Importing necessary CSS and Bootstrap styles
-import './App.css';
+import '../App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Importing React and necessary hooks
 import React, { useState } from 'react';
 
 // Importing custom components
-import RecipeList from './components/RecipeList/RecipeList';
-import MealDisplay from './components/MealDisplay/MealDisplay';
-import NavigationBar from './components/NavigationBar/NavigationBar';
-import Footer from './components/Footer/Footer';
+import RecipeList from '../components/RecipeList/RecipeList';
+import MealDisplay from '../components/MealDisplay/MealDisplay';
+import NavigationBar from '../components/NavigationBar/NavigationBar';
+import Footer from '../components/Footer/Footer';
 
 // Main App component
 const LoggedIn = () => {
