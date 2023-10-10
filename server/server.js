@@ -64,6 +64,16 @@ MongoClient.connect(uri)
       }
     });
 
+    // Define the /logout route
+    app.post('/logout', (req, res) => {
+      req.session.destroy(err => {
+        if (err) {
+          return res.status(500).send('Could not log out.');
+        }
+        res.status(200).send('Logged out successfully');
+      });
+    });
+
     // Start the server
     app.listen(port, () => {
       console.log(`Server running at http://localhost:${port}/`);
