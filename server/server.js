@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
+const session = require('express-session');
+require('dotenv').config();
 
 const app = express();
 const port = 3001;
@@ -9,8 +11,19 @@ const port = 3001;
 app.use(cors());
 app.use(express.json());
 
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'default-secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24
+  }
+}));
+
 // MongoDB connection string
-const uri = "mongodb+srv://stephen:Mark123%21%22%C2%A3@cluster0.dcxcg2q.mongodb.net/";
+const uri = process.env.MONGODB_URI;
 
 // Connect to MongoDB Atlas
 MongoClient.connect(uri)
@@ -32,25 +45,24 @@ MongoClient.connect(uri)
       }
     });
 
+    // Define the /login route
     app.post('/login', async (req, res) => {
       const { username, password } = req.body;
-      console.log('Received:', { username, password });  // Log received username and password
       try {
         const user = await usersCollection.findOne({ username });
-        console.log('Found user:', user);  // Log found user
         if (!user) {
           return res.status(400).send('User not found');
         }
         if (user.password !== password) {
           return res.status(400).send('Invalid password');
         }
+        req.session.userId = user._id; // Store user ID in session
         res.status(200).send('Logged in successfully');
       } catch (error) {
         console.error('Error during login:', error);
         res.status(500).send('Internal Server Error');
       }
     });
-
 
     // Start the server
     app.listen(port, () => {
