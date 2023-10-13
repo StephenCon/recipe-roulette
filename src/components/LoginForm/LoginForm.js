@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import './LoginForm.css';
 
 const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,7 +17,7 @@ const LoginForm = () => {
         });
 
         if (response.status === 200) {
-            navigate('/dashboard'); // Redirect to dashboard
+            alert('Logged in successfully');
         } else {
             alert('Login failed');
         }
