@@ -1,13 +1,13 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 const express = require('express');
 const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
 const bcrypt = require('bcrypt');
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
-const uri = 'mongodb+srv://stephen:Mark123%21%22%C2%A3@cluster0.dcxcg2q.mongodb.net/';
+const uri = process.env.MONGODB_URI;
 
 app.use(cors());
 app.use(express.json());
@@ -15,7 +15,7 @@ app.use(express.json());
 MongoClient.connect(uri)
   .then(client => {
     console.log('Connected to MongoDB Atlas');
-    const db = client.db('recipe-roulette');
+    const db = client.db(process.env.DB_NAME);
     const usersCollection = db.collection('users');
 
     app.post('/register', async (req, res) => {
