@@ -10,6 +10,7 @@ import RecipeList from '../components/RecipeList/RecipeList';
 import MealDisplay from '../components/MealDisplay/MealDisplay';
 import NavigationBar from '../components/NavigationBar/NavigationBar';
 import Footer from '../components/Footer/Footer';
+import AuthWrapper from '../components/AuthWrapper/AuthWrapper';
 
 // Main App component
 const Dashboard = () => {
@@ -45,23 +46,25 @@ const Dashboard = () => {
 
     // Rendering the main App component
     return (
-        <div className="container">
-            <NavigationBar />
-            <hr className="hr" />
-            <div className='container shadow rounded'>
-                {/* Passing recipes and onRandomize to MealDisplay */}
-                <MealDisplay meals={randomMeals} recipes={recipes} onRandomize={handleRandomizedMeals} />
+        <AuthWrapper>
+            <div className="container">
+                <NavigationBar />
+                <hr className="hr" />
+                <div className='container shadow rounded'>
+                    {/* Passing recipes and onRandomize to MealDisplay */}
+                    <MealDisplay meals={randomMeals} recipes={recipes} onRandomize={handleRandomizedMeals} />
+                </div>
+                <div className='container shadow rounded'>
+                    <RecipeList
+                        recipes={recipes}
+                        onDeleteRecipe={handleDelete}
+                        onEditRecipe={handleEdit}
+                        onAddRecipe={handleAddRecipe}
+                    />
+                </div>
+                <Footer />
             </div>
-            <div className='container shadow rounded'>
-                <RecipeList
-                    recipes={recipes}
-                    onDeleteRecipe={handleDelete}
-                    onEditRecipe={handleEdit}
-                    onAddRecipe={handleAddRecipe}
-                />
-            </div>
-            <Footer />
-        </div>
+        </AuthWrapper>
     );
 };
 
