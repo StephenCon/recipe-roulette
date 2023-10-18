@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LoginForm.css';
+
 
 const LoginForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -16,12 +19,16 @@ const LoginForm = () => {
             body: JSON.stringify({ username, password }),
         });
 
+        const data = await response.json();
         if (response.status === 200) {
+            localStorage.setItem('token', data.token);
             alert('Logged in successfully');
+            navigate('/dashboard');
         } else {
             alert('Login failed');
         }
     };
+
 
     return (
         <form onSubmit={handleSubmit} className='login-form'>

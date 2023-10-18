@@ -3,9 +3,10 @@ const express = require('express');
 const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = 3001; //do not change
 
 const uri = process.env.MONGODB_URI;
 
@@ -35,12 +36,13 @@ MongoClient.connect(uri)
       try {
         const user = await usersCollection.findOne({ username });
         if (!user || !(await bcrypt.compare(password, user.password))) {
-          return res.status(400).send('Invalid username or password');
+          return res.status(400).json({ message: 'Invalid username or password' });
         }
-        res.status(200).redirect('/dashboard');
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.status(200).json({ message: 'Login successful', token });
       } catch (error) {
         console.error('Error during login:', error);
-        res.status(500).send('Internal Server Error');
+        res.status(500).json({ message: 'Internal Server Error' });
       }
     });
 
