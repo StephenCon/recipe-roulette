@@ -1,19 +1,28 @@
+// Import necessary libraries and configurations
 require('dotenv').config({ path: '../.env' });
 const express = require('express');
 const cors = require('cors');
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// Initialize Express application and set port
 const app = express();
-const port = 3001; //do not change
+const PORT = 3001; // Note: Do not change the port number
 
-const uri = process.env.MONGODB_URI;
+// MongoDB URI and connection setup
+const MONGODB_URI = process.env.MONGODB_URI;
 
+// Apply middleware for CORS and JSON parsing
 app.use(cors());
 app.use(express.json());
 
-// Define your authenticateJWT middleware function here
+/**
+ * Middleware function to authenticate JWT tokens.
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ * @param {function} next - Express next middleware function
+ */
 const authenticateJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -33,14 +42,22 @@ const authenticateJWT = (req, res, next) => {
   }
 };
 
-MongoClient.connect(uri)
+// Connect to MongoDB
+MongoClient.connect(MONGODB_URI)
   .then(client => {
     console.log('Connected to MongoDB Atlas');
+
+    // Setup database and collections
     const db = client.db(process.env.DB_NAME);
     const usersCollection = db.collection('users');
 
+    /**
+     * Endpoint to handle user registration
+     * Expects a JSON body with username and password fields
+     */
     app.post('/register', async (req, res) => {
       const { username, password } = req.body;
+
       try {
         const hashedPassword = await bcrypt.hash(password, 10);
         await usersCollection.insertOne({ username, password: hashedPassword });
@@ -51,13 +68,20 @@ MongoClient.connect(uri)
       }
     });
 
+    /**
+     * Endpoint to handle user login
+     * Expects a JSON body with username and password fields
+     */
     app.post('/login', async (req, res) => {
       const { username, password } = req.body;
+
       try {
         const user = await usersCollection.findOne({ username });
+
         if (!user || !(await bcrypt.compare(password, user.password))) {
           return res.status(400).json({ message: 'Invalid username or password' });
         }
+
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.status(200).json({ message: 'Login successful', token });
       } catch (error) {
@@ -66,12 +90,16 @@ MongoClient.connect(uri)
       }
     });
 
-    app.get('/dashboard', authenticateJWT, (req, res) => {  // Example protected route
+    /**
+     * Protected route requiring JWT authentication
+     */
+    app.get('/dashboard', authenticateJWT, (req, res) => {
       res.send('This is a protected route');
     });
 
-    app.listen(port, () => {
-      console.log(`Server running at http://localhost:${port}/`);
+    // Start the Express server
+    app.listen(PORT, () => {
+      console.log(`Server running at http://localhost:${PORT}/`);
     });
   })
   .catch(err => {
