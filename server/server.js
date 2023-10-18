@@ -13,6 +13,26 @@ const uri = process.env.MONGODB_URI;
 app.use(cors());
 app.use(express.json());
 
+// Define your authenticateJWT middleware function here
+const authenticateJWT = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (authHeader) {
+    const token = authHeader.split(' ')[1];
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err) {
+        return res.sendStatus(403);
+      }
+
+      req.user = user;
+      next();
+    });
+  } else {
+    res.sendStatus(401);
+  }
+};
+
 MongoClient.connect(uri)
   .then(client => {
     console.log('Connected to MongoDB Atlas');
@@ -44,6 +64,10 @@ MongoClient.connect(uri)
         console.error('Error during login:', error);
         res.status(500).json({ message: 'Internal Server Error' });
       }
+    });
+
+    app.get('/dashboard', authenticateJWT, (req, res) => {  // Example protected route
+      res.send('This is a protected route');
     });
 
     app.listen(port, () => {
