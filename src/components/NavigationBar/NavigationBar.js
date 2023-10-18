@@ -1,13 +1,12 @@
 // Importing necessary React and React-Bootstrap components
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar, NavDropdown, Nav, Modal } from 'react-bootstrap';
 import SignupForm from '../SignUpForm/SignUpForm';
-import LoginForm from '../LoginForm/LoginForm'; // Import your SignupForm component
+import LoginForm from '../LoginForm/LoginForm';
 import './NavigationBar.css';
 
 // Importing profile image from assets
 import profile_image from '../../assets/images/emptyprofile.png';
-
 
 // NavigationBar component definition
 const NavigationBar = () => {
@@ -17,6 +16,20 @@ const NavigationBar = () => {
     const [showLoginModal, setShowLoginModal] = useState(false);
     // State to control the visibility of the Signup Modal
     const [showSignupModal, setShowSignupModal] = useState(false);
+    // State to control whether the user is logged in
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+
+    // Logout function to handle logout action
+    const handleLogout = () => {
+        // Clear the authentication token from local storage
+        localStorage.removeItem('token');
+        setIsLoggedIn(false);
+    };
+
+    // Effect to update isLoggedIn when the token changes
+    useEffect(() => {
+        setIsLoggedIn(!!localStorage.getItem('token'));
+    }, []);
 
     return (
         <Navbar className="bg-white">
@@ -39,8 +52,14 @@ const NavigationBar = () => {
                         onMouseOver={() => setShow(true)}
                         onMouseLeave={() => setShow(false)}
                     >
-                        <NavDropdown.Item onClick={() => setShowLoginModal(true)}>Login</NavDropdown.Item>
-                        <NavDropdown.Item onClick={() => setShowSignupModal(true)}>Sign Up</NavDropdown.Item>
+                        {isLoggedIn ? (
+                            <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+                        ) : (
+                            <>
+                                <NavDropdown.Item onClick={() => setShowLoginModal(true)}>Login</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => setShowSignupModal(true)}>Sign Up</NavDropdown.Item>
+                            </>
+                        )}
                     </NavDropdown>
                 </Nav>
             </Navbar.Collapse>
