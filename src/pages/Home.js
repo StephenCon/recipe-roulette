@@ -12,11 +12,11 @@ function App() {
             <NavigationBar />
             <hr className='hr' />
             <div className='container'>
-            <HeroSection />
-            <Features />
-            <HowItWorks />
-            <Testimonials />
-            <Footer />
+                <HeroSection />
+                <Features />
+                <HowItWorks />
+                <Testimonials />
+                <Footer />
             </div>
         </div>
     );
