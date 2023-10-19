@@ -4,6 +4,7 @@ import { Navbar, NavDropdown, Nav, Modal } from 'react-bootstrap';
 import SignupForm from '../SignUpForm/SignUpForm';
 import LoginForm from '../LoginForm/LoginForm';
 import './NavigationBar.css';
+import { useNavigate } from 'react-router-dom';
 
 // Importing profile image from assets
 import profile_image from '../../assets/images/emptyprofile.png';
@@ -18,12 +19,14 @@ const NavigationBar = () => {
     const [showSignupModal, setShowSignupModal] = useState(false);
     // State to control whether the user is logged in
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+    const navigate = useNavigate();
 
     // Logout function to handle logout action
     const handleLogout = () => {
         // Clear the authentication token from local storage
         localStorage.removeItem('token');
         setIsLoggedIn(false);
+        navigate('/');
     };
 
     // Effect to update isLoggedIn when the token changes
