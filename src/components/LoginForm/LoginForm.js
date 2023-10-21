@@ -33,11 +33,10 @@ const LoginForm = () => {
         if (response.status === 200) {
             // On successful login, store the token, notify the user, and redirect to the dashboard
             localStorage.setItem('token', data.token);
-            alert('Logged in successfully');
             navigate('/dashboard');
         } else {
-            // On failed login, notify the user
-            alert('Login failed');
+            // On failed login, redirect the user to a login page
+            navigate('/loginform');
         }
     };
 
