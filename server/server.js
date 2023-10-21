@@ -6,11 +6,9 @@ const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// Initialize Express application and set port
+// Configuration and initialization
 const app = express();
 const PORT = 3001; // Note: Do not change the port number
-
-// MongoDB URI and connection setup
 const MONGODB_URI = process.env.MONGODB_URI;
 
 // Apply middleware for CORS and JSON parsing
@@ -30,9 +28,7 @@ const authenticateJWT = (req, res, next) => {
     const token = authHeader.split(' ')[1];
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) {
-        return res.sendStatus(403);
-      }
+      if (err) return res.sendStatus(403);
 
       req.user = user;
       next();
@@ -42,7 +38,7 @@ const authenticateJWT = (req, res, next) => {
   }
 };
 
-// Connect to MongoDB
+// Connect to MongoDB and set up routes
 MongoClient.connect(MONGODB_URI)
   .then(client => {
     console.log('Connected to MongoDB Atlas');
@@ -52,8 +48,8 @@ MongoClient.connect(MONGODB_URI)
     const usersCollection = db.collection('users');
 
     /**
-     * Endpoint to handle user registration
-     * Expects a JSON body with username and password fields
+     * Endpoint to handle user registration.
+     * Expects a JSON body with username and password fields.
      */
     app.post('/register', async (req, res) => {
       const { username, password } = req.body;
@@ -69,8 +65,8 @@ MongoClient.connect(MONGODB_URI)
     });
 
     /**
-     * Endpoint to handle user login
-     * Expects a JSON body with username and password fields
+     * Endpoint to handle user login.
+     * Expects a JSON body with username and password fields.
      */
     app.post('/login', async (req, res) => {
       const { username, password } = req.body;
@@ -91,7 +87,7 @@ MongoClient.connect(MONGODB_URI)
     });
 
     /**
-     * Protected route requiring JWT authentication
+     * Protected route requiring JWT authentication.
      */
     app.get('/dashboard', authenticateJWT, (req, res) => {
       res.send('This is a protected route');
@@ -101,6 +97,7 @@ MongoClient.connect(MONGODB_URI)
     app.listen(PORT, () => {
       console.log(`Server running at http://localhost:${PORT}/`);
     });
+
   })
   .catch(err => {
     console.error('Failed to connect to MongoDB Atlas', err);
