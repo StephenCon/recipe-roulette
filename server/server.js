@@ -55,6 +55,12 @@ MongoClient.connect(MONGODB_URI)
       const { email, password } = req.body;
 
       try {
+        // Check if email already exists
+        const existingUser = await usersCollection.findOne({ email });
+        if (existingUser) {
+          return res.status(409).send('User already exists');
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
         await usersCollection.insertOne({ email, password: hashedPassword });
         res.status(201).send('User registered successfully');
@@ -63,6 +69,7 @@ MongoClient.connect(MONGODB_URI)
         res.status(500).send('Registration failed');
       }
     });
+
 
     /**
      * Endpoint to handle user login.

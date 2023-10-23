@@ -23,7 +23,9 @@ const SignupForm = () => {
             body: JSON.stringify({ email, password }),
         });
 
-        if (response.status === 201) {
+        if (response.status === 409) {
+            alert('User already exists');
+        } else if (response.status === 201) {
             alert('User registered successfully');
         } else {
             alert('Registration failed');
