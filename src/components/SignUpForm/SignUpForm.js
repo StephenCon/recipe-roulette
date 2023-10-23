@@ -33,12 +33,10 @@ const SignupForm = () => {
     return (
         <form onSubmit={handleSubmit} className="signup-form">
             <div className="form-group">
-                <label>Email</label> 
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" />
+                <input type="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" />
             </div>
             <div className="form-group">
-                <label>Password</label>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" />
+                <input type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" />
             </div>
             <button type="submit" className="btn btn-primary">Sign Up</button>
         </form>

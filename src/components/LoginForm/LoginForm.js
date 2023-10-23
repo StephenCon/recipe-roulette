@@ -52,18 +52,18 @@ const LoginForm = () => {
     return (
         <form onSubmit={handleSubmit} className='login-form'>
             <div className='form-group'>
-                <label>Email</label>
                 <input
-                    type="email" 
+                    type="email"
+                    placeholder='Email'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className='form-control'
                 />
             </div>
             <div className='form-group'>
-                <label>Password</label>
                 <input
                     type="password"
+                    placeholder='Password'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className='form-control'
