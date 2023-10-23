@@ -31,6 +31,24 @@ function authenticateJWT(req, res, next) {
 }
 
 // Route Handlers
+async function handleUserLogin(req, res) {
+  const { email, password } = req.body;
+  try {
+    const usersCollection = req.db.collection('users');
+    const user = await usersCollection.findOne({ email });
+    if (!user) return res.status(400).json({ message: 'Invalid email or password' });
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) return res.status(400).json({ message: 'Invalid email or password' });
+
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.status(200).json({ message: 'Login successful', token });
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+}
+
 async function handleUserRegistration(req, res) {
   const { email, password } = req.body;
   try {
@@ -48,11 +66,11 @@ async function handleUserRegistration(req, res) {
 }
 
 async function handleAddRecipe(req, res) {
-  const { name, ingredients, instructions } = req.body;
+  const { name, instructions } = req.body;
   const userId = req.user.userId;
   try {
     const recipesCollection = req.db.collection('recipes');
-    const result = await recipesCollection.insertOne({ name, ingredients, instructions, userId });
+    const result = await recipesCollection.insertOne({ name, instructions, userId });
     res.status(201).json(result.ops[0]);
   } catch (error) {
     console.error('Error adding recipe:', error);
@@ -84,9 +102,11 @@ MongoClient.connect(MONGODB_URI)
 
     // Route Definitions
     app.post('/register', handleUserRegistration);
+    app.post('/login', handleUserLogin);  // Add this line for the login endpoint
     app.post('/recipes', authenticateJWT, handleAddRecipe);
     app.get('/recipes', authenticateJWT, handleGetRecipes);
     app.get('/dashboard', authenticateJWT, (req, res) => res.send('This is a protected route'));
+
 
     // Start the Express server
     app.listen(PORT, () => {
