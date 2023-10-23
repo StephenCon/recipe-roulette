@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import RecipeForm from '../RecipeForm/RecipeForm';
 import './RecipeList.css';
 
-const RecipeList = ({ meals, onRandomize, onEditRecipe, onDeleteRecipe }) => {
+const RecipeList = ({onEditRecipe, onDeleteRecipe }) => {
     const [showModal, setShowModal] = useState(false);
     const [recipes, setRecipes] = useState([]);
 
