@@ -55,7 +55,6 @@ async function handleUserRegistration(req, res) {
     const usersCollection = req.db.collection('users');
     const existingUser = await usersCollection.findOne({ email });
     if (existingUser) return res.status(409).send('User already exists');
-
     const hashedPassword = await bcrypt.hash(password, 10);
     await usersCollection.insertOne({ email, password: hashedPassword });
     res.status(201).send('User registered successfully');
@@ -66,11 +65,11 @@ async function handleUserRegistration(req, res) {
 }
 
 async function handleAddRecipe(req, res) {
-  const { name, instructions } = req.body;
+  const { name, mealType } = req.body;  // Destructure mealType from req.body
   const userId = req.user.userId;
   try {
     const recipesCollection = req.db.collection('recipes');
-    const result = await recipesCollection.insertOne({ name, instructions, userId });
+    const result = await recipesCollection.insertOne({ name, mealType, userId });  // Include mealType
     res.status(201).json(result.ops[0]);
   } catch (error) {
     console.error('Error adding recipe:', error);
