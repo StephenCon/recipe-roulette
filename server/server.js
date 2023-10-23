@@ -8,19 +8,14 @@ const jwt = require('jsonwebtoken');
 
 // Configuration and initialization
 const app = express();
-const PORT = 3001; // Note: Do not change the port number
+const PORT = 3001;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 // Apply middleware for CORS and JSON parsing
 app.use(cors());
 app.use(express.json());
 
-/**
- * Middleware function to authenticate JWT tokens.
- * @param {object} req - Express request object
- * @param {object} res - Express response object
- * @param {function} next - Express next middleware function
- */
+// Middleware function to authenticate JWT tokens
 const authenticateJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -46,6 +41,7 @@ MongoClient.connect(MONGODB_URI)
     // Setup database and collections
     const db = client.db(process.env.DB_NAME);
     const usersCollection = db.collection('users');
+    const recipesCollection = db.collection('recipes');  // New recipes collection
 
     /**
      * Endpoint to handle user registration.
@@ -69,26 +65,35 @@ MongoClient.connect(MONGODB_URI)
         res.status(500).send('Registration failed');
       }
     });
-
-
+    
     /**
-     * Endpoint to handle user login.
-     * Expects a JSON body with email and password fields.
+     * Endpoint to add a new recipe.
+     * Expects a JSON body with recipe data.
      */
-    app.post('/login', async (req, res) => {
-      const { email, password } = req.body;
+    app.post('/recipes', authenticateJWT, async (req, res) => {
+      const { name, ingredients, instructions } = req.body;
+      const userId = req.user.userId;  // Get user ID from JWT
 
       try {
-        const user = await usersCollection.findOne({ email });
-
-        if (!user || !(await bcrypt.compare(password, user.password))) {
-          return res.status(400).json({ message: 'Invalid email or password' });
-        }
-
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.status(200).json({ message: 'Login successful', token });
+        const result = await recipesCollection.insertOne({ name, ingredients, instructions, userId });
+        res.status(201).json(result.ops[0]);  // Return the newly added recipe
       } catch (error) {
-        console.error('Error during login:', error);
+        console.error('Error adding recipe:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+      }
+    });
+
+    /**
+     * Endpoint to retrieve all recipes for the authenticated user.
+     */
+    app.get('/recipes', authenticateJWT, async (req, res) => {
+      const userId = req.user.userId;  // Get user ID from JWT
+
+      try {
+        const recipes = await recipesCollection.find({ userId }).toArray();
+        res.status(200).json(recipes);
+      } catch (error) {
+        console.error('Error retrieving recipes:', error);
         res.status(500).json({ message: 'Internal Server Error' });
       }
     });
