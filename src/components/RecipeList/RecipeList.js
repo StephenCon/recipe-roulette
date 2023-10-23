@@ -1,14 +1,56 @@
-import React, { useState } from 'react';
-import { Button, Modal } from 'react-bootstrap'; // Assuming Button and Modal are from react-bootstrap
-import RecipeForm from '../RecipeForm/RecipeForm'; // Assuming RecipeForm is located here
+import React, { useState, useEffect } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import RecipeForm from '../RecipeForm/RecipeForm';
 import './RecipeList.css';
 
-const MealDisplay = ({ meals, recipes, onRandomize, onEditRecipe, onDeleteRecipe, onAddRecipe }) => {
+const RecipeList = ({ meals, onRandomize, onEditRecipe, onDeleteRecipe }) => {
     const [showModal, setShowModal] = useState(false);
+    const [recipes, setRecipes] = useState([]);
 
-    const handleFormSubmit = (newRecipe) => {
-        onAddRecipe(newRecipe);
-        setShowModal(false);
+    const fetchRecipes = async () => {
+        const token = localStorage.getItem('token');  // Assume the token is stored in local storage
+        try {
+            const response = await fetch('/recipes', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setRecipes(data);
+            } else {
+                console.error('Failed to fetch recipes:', await response.text());
+            }
+        } catch (error) {
+            console.error('Error fetching recipes:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchRecipes();
+    }, []);  // Empty dependency array means this useEffect runs once, similar to componentDidMount
+
+    const handleFormSubmit = async (newRecipe) => {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await fetch('/recipes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(newRecipe)
+            });
+            if (response.ok) {
+                const addedRecipe = await response.json();
+                setRecipes(prevRecipes => [...prevRecipes, addedRecipe]);
+                setShowModal(false);
+            } else {
+                console.error('Failed to add recipe:', await response.text());
+            }
+        } catch (error) {
+            console.error('Error adding recipe:', error);
+        }
     };
 
     return (
@@ -54,4 +96,4 @@ const MealDisplay = ({ meals, recipes, onRandomize, onEditRecipe, onDeleteRecipe
     );
 };
 
-export default MealDisplay;
+export default RecipeList;
