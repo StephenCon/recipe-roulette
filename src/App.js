@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // Internal imports
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
-/* import LoginForm from './components/LoginForm/LoginForm'; */
 import './App.css';  // Simplified the import path as it's relative to the current file
 
 /**
@@ -21,7 +20,6 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />         {/* Home route */}
                     <Route path="/dashboard" element={<Dashboard />} /> {/* Dashboard route */}
-                    {/* <Route path="/login" element={<LoginForm />} />     {/* Login route */}
                 </Routes>
             </BrowserRouter>
         </div>

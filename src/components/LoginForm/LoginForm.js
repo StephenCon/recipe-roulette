@@ -35,8 +35,9 @@ const LoginForm = () => {
             localStorage.setItem('token', data.token);
             navigate('/dashboard');
         } else {
-            // On failed login, redirect the user to a login page
-            navigate('/loginform');
+            // On failed login, redirect the user to the login page
+            alert('User Logged In Successfully');
+            /* navigate('/loginform'); */
         }
     };
 
