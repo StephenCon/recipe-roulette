@@ -70,7 +70,7 @@ const NavigationBar = () => {
             {/* Login Modal */}
             <Modal show={showLoginModal} onHide={() => setShowLoginModal(false)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Login</Modal.Title>
+                    <Modal.Title className="modal-title">Login</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <LoginForm />
@@ -80,7 +80,7 @@ const NavigationBar = () => {
             {/* Signup Modal */}
             <Modal show={showSignupModal} onHide={() => setShowSignupModal(false)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Sign Up</Modal.Title>
+                    <Modal.Title className="modal-title">Sign Up</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <SignupForm />
