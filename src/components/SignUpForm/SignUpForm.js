@@ -42,10 +42,10 @@ const SignupForm = () => {
             </div>
             <button type="submit" className="btn btn-primary">Sign Up</button>
 
-            <button class="btn btn-lg btn-block btn-primary"
-                type="submit"><i class="fab fa-google me-2"></i> Sign in with google</button>
-            <button class="btn btn-lg btn-block btn-primary mb-2"
-                type="submit"><i class="fab fa-facebook-f me-2"></i>Sign in with facebook</button>
+            <button className="btn btn-lg btn-block btn-primary"
+                type="submit"><i className="fab fa-google me-2"></i> Sign in with google</button>
+            <button className="btn btn-lg btn-block btn-primary mb-2"
+                type="submit"><i className="fab fa-facebook-f me-2"></i>Sign in with facebook</button>
         </form>
     );
 };
