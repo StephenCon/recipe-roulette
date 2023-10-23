@@ -49,14 +49,14 @@ MongoClient.connect(MONGODB_URI)
 
     /**
      * Endpoint to handle user registration.
-     * Expects a JSON body with username and password fields.
+     * Expects a JSON body with email and password fields.
      */
     app.post('/register', async (req, res) => {
-      const { username, password } = req.body;
+      const { email, password } = req.body;
 
       try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        await usersCollection.insertOne({ username, password: hashedPassword });
+        await usersCollection.insertOne({ email, password: hashedPassword });
         res.status(201).send('User registered successfully');
       } catch (error) {
         console.error(error);
@@ -66,16 +66,16 @@ MongoClient.connect(MONGODB_URI)
 
     /**
      * Endpoint to handle user login.
-     * Expects a JSON body with username and password fields.
+     * Expects a JSON body with email and password fields.
      */
     app.post('/login', async (req, res) => {
-      const { username, password } = req.body;
+      const { email, password } = req.body;
 
       try {
-        const user = await usersCollection.findOne({ username });
+        const user = await usersCollection.findOne({ email });
 
         if (!user || !(await bcrypt.compare(password, user.password))) {
-          return res.status(400).json({ message: 'Invalid username or password' });
+          return res.status(400).json({ message: 'Invalid email or password' });
         }
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
