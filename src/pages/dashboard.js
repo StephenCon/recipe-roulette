@@ -12,7 +12,10 @@ import NavigationBar from '../components/NavigationBar/NavigationBar';
 import Footer from '../components/Footer/Footer';
 import AuthWrapper from '../components/AuthWrapper/AuthWrapper';
 
-// Main App component
+/**
+ * Main Dashboard component.
+ * @return {React.Component} - The rendered Dashboard component.
+ */
 const Dashboard = () => {
     // State to store the list of recipes
     const [recipes, setRecipes] = useState([]);
@@ -20,41 +23,55 @@ const Dashboard = () => {
     // State to store the randomized meals (breakfast, lunch, dinner)
     const [randomMeals, setRandomMeals] = useState({ breakfast: null, lunch: null, dinner: null });
 
-    // Handler to add a new recipe to the recipes list
+    /**
+     * Adds a new recipe to the recipes list.
+     * @param {Object} newRecipe - The recipe to be added.
+     */
     const handleAddRecipe = (newRecipe) => {
         setRecipes([...recipes, newRecipe]);
     };
 
-    // Handler to delete a recipe from the recipes list
+    /**
+     * Deletes a recipe from the recipes list.
+     * @param {number} index - The index of the recipe to be deleted.
+     */
     const handleDelete = (index) => {
         const updatedRecipes = [...recipes];
         updatedRecipes.splice(index, 1);
         setRecipes(updatedRecipes);
     };
 
-    // Handler to edit an existing recipe in the recipes list
+    /**
+     * Edits an existing recipe in the recipes list.
+     * @param {number} index - The index of the recipe to be edited.
+     * @param {Object} updatedRecipe - The updated recipe data.
+     */
     const handleEdit = (index, updatedRecipe) => {
         const updatedRecipes = [...recipes];
         updatedRecipes[index] = updatedRecipe;
         setRecipes(updatedRecipes);
     };
 
-    // Handler to update the state with randomized meals
+    /**
+     * Updates the state with randomized meals.
+     * @param {Object} randomizedMeals - The randomized meals.
+     */
     const handleRandomizedMeals = (randomizedMeals) => {
         setRandomMeals(randomizedMeals);
     };
 
-    // Rendering the main App component
+    // Rendering the main Dashboard component
     return (
         <AuthWrapper>
             <div className="container">
                 <NavigationBar />
                 <hr className="hr" />
                 <div className='container shadow rounded'>
-                    {/* Passing recipes and onRandomize to MealDisplay */}
+                    {/* Displaying randomized meals */}
                     <MealDisplay meals={randomMeals} recipes={recipes} onRandomize={handleRandomizedMeals} />
                 </div>
                 <div className='container shadow rounded'>
+                    {/* Displaying and managing the recipe list */}
                     <RecipeList
                         recipes={recipes}
                         onDeleteRecipe={handleDelete}
@@ -68,5 +85,5 @@ const Dashboard = () => {
     );
 };
 
-// Exporting the App component for use in other parts of the application
+// Exporting the Dashboard component for use in other parts of the application
 export default Dashboard;
