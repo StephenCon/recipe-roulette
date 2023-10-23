@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import './SignUpForm.css'; // Import the CSS file
 
 const SignupForm = () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Basic validation
-        if (username.length < 3 || password.length < 6) {
-            alert('Username must be at least 3 characters and password at least 6 characters long.');
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;  // Regex pattern for email validation
+        if (!emailPattern.test(email) || password.length < 6) {  // Updated validation
+            alert('Please enter a valid email and ensure password is at least 6 characters long.');
             return;
         }
 
@@ -19,7 +20,7 @@ const SignupForm = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ email, password }),
         });
 
         if (response.status === 201) {
@@ -32,8 +33,8 @@ const SignupForm = () => {
     return (
         <form onSubmit={handleSubmit} className="signup-form">
             <div className="form-group">
-                <label>Username</label>
-                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="form-control" />
+                <label>Email</label> 
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" />
             </div>
             <div className="form-group">
                 <label>Password</label>

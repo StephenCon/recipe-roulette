@@ -5,8 +5,8 @@ import './LoginForm.css';
 
 // Define the LoginForm component
 const LoginForm = () => {
-    // Define state variables for username and password
-    const [username, setUsername] = useState('');
+    // Define state variables for email and password
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     // Get the navigate function from the useNavigate hook
@@ -17,13 +17,20 @@ const LoginForm = () => {
         // Prevent the default form submission behavior
         e.preventDefault();
 
+        // Basic validation for email format
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email) || password.length < 6) {
+            alert('Please enter a valid email and ensure password is at least 6 characters long.');
+            return;
+        }
+
         // Send a POST request to the login endpoint
         const response = await fetch('http://localhost:3001/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ email, password }),
         });
 
         // Parse the JSON response from the server
@@ -36,7 +43,7 @@ const LoginForm = () => {
             navigate('/dashboard');
         } else {
             // On failed login, redirect the user to the login page
-            alert('User Logged In Successfully');
+            alert('Login failed, please try again.');  // Updated alert message
             /* navigate('/loginform'); */
         }
     };
@@ -45,11 +52,11 @@ const LoginForm = () => {
     return (
         <form onSubmit={handleSubmit} className='login-form'>
             <div className='form-group'>
-                <label>Username</label>
+                <label>Email</label>
                 <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className='form-control'
                 />
             </div>
