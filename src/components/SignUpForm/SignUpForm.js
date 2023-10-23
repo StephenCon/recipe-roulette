@@ -41,6 +41,11 @@ const SignupForm = () => {
                 <input type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" />
             </div>
             <button type="submit" className="btn btn-primary">Sign Up</button>
+
+            <button class="btn btn-lg btn-block btn-primary"
+                type="submit"><i class="fab fa-google me-2"></i> Sign in with google</button>
+            <button class="btn btn-lg btn-block btn-primary mb-2"
+                type="submit"><i class="fab fa-facebook-f me-2"></i>Sign in with facebook</button>
         </form>
     );
 };
