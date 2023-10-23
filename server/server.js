@@ -1,4 +1,4 @@
-// Import necessary libraries and configurations
+// Importing necessary libraries and configurations
 require('dotenv').config({ path: '../.env' });
 const express = require('express');
 const cors = require('cors');
@@ -6,16 +6,21 @@ const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// Configuration and initialization
+// Configuring and initializing the application
 const app = express();
 const PORT = process.env.PORT || 3001;
 const MONGODB_URI = process.env.MONGODB_URI;
 
-// Apply middleware
+// Applying middleware
 app.use(cors());
 app.use(express.json());
 
-// Middleware function to authenticate JWT tokens
+/**
+ * Middleware function to authenticate JWT tokens.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function in the application’s request-response cycle.
+ */
 function authenticateJWT(req, res, next) {
   const authHeader = req.headers.authorization;
   if (authHeader) {
@@ -30,7 +35,12 @@ function authenticateJWT(req, res, next) {
   }
 }
 
-// Route Handlers
+/**
+ * Route handler for user login.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 async function handleUserLogin(req, res) {
   const { email, password } = req.body;
   try {
@@ -49,6 +59,12 @@ async function handleUserLogin(req, res) {
   }
 }
 
+/**
+ * Route handler for user registration.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 async function handleUserRegistration(req, res) {
   const { email, password } = req.body;
   try {
@@ -59,17 +75,23 @@ async function handleUserRegistration(req, res) {
     await usersCollection.insertOne({ email, password: hashedPassword });
     res.status(201).send('User registered successfully');
   } catch (error) {
-    console.error(error);
+    console.error('Error during registration:', error);
     res.status(500).send('Registration failed');
   }
 }
 
+/**
+ * Route handler for adding a recipe.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 async function handleAddRecipe(req, res) {
-  const { name, mealType } = req.body;  // Destructure mealType from req.body
+  const { name, mealType } = req.body;
   const userId = req.user.userId;
   try {
     const recipesCollection = req.db.collection('recipes');
-    const result = await recipesCollection.insertOne({ name, mealType, userId });  // Include mealType
+    const result = await recipesCollection.insertOne({ name, mealType, userId });
     res.status(201).json(result.ops[0]);
   } catch (error) {
     console.error('Error adding recipe:', error);
@@ -77,6 +99,12 @@ async function handleAddRecipe(req, res) {
   }
 }
 
+/**
+ * Route handler for getting recipes.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 async function handleGetRecipes(req, res) {
   const userId = req.user.userId;
   try {
@@ -89,7 +117,7 @@ async function handleGetRecipes(req, res) {
   }
 }
 
-// MongoDB Connection and Server Startup
+// Connecting to MongoDB and starting the server
 MongoClient.connect(MONGODB_URI)
   .then(client => {
     console.log('Connected to MongoDB Atlas');
@@ -99,15 +127,14 @@ MongoClient.connect(MONGODB_URI)
       next();
     });
 
-    // Route Definitions
+    // Defining the routes
     app.post('/register', handleUserRegistration);
-    app.post('/login', handleUserLogin);  // Add this line for the login endpoint
+    app.post('/login', handleUserLogin);
     app.post('/recipes', authenticateJWT, handleAddRecipe);
     app.get('/recipes', authenticateJWT, handleGetRecipes);
     app.get('/dashboard', authenticateJWT, (req, res) => res.send('This is a protected route'));
 
-
-    // Start the Express server
+    // Starting the Express server
     app.listen(PORT, () => {
       console.log(`Server running at http://localhost:${PORT}/`);
     });
