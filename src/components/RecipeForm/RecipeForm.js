@@ -1,13 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const RecipeForm = ({ onAddRecipe }) => {
     const [recipeName, setRecipeName] = useState('');
     const [mealType, setMealType] = useState('');
+    const [token, setToken] = useState('');
 
-    const handleSubmit = (e) => {
-        
+    useEffect(() => {
+        // Fetch the token from localStorage on component mount
+        const storedToken = localStorage.getItem('token');
+        setToken(storedToken);
+    }, []);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!token) {
+            console.error('Token is missing. Please log in.');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:3001/recipes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    recipeName,
+                    mealType,
+                }),
+            });
+
+            if (response.ok) {
+                setRecipeName('');
+                setMealType('');
+
+                if (onAddRecipe) {
+                    onAddRecipe();
+                }
+            } else {
+                const errorMessage = await response.text();
+                console.error('Error submitting recipe:', errorMessage);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
-
     return (
         <form onSubmit={handleSubmit} className="container bg-white rounded p-4">
             <div className="mb-3">
@@ -22,10 +61,10 @@ const RecipeForm = ({ onAddRecipe }) => {
             </div>
             <div className="mb-3">
                 <label className="form-label">Meal Type:</label>
-                <select 
-                    value={mealType} 
-                    onChange={(e) => setMealType(e.target.value)} 
-                    required 
+                <select
+                    value={mealType}
+                    onChange={(e) => setMealType(e.target.value)}
+                    required
                     className="form-select"
                 >
                     <option value="">Select a meal type</option>

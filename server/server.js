@@ -2,7 +2,7 @@
 require('dotenv').config({ path: '../.env' });
 const express = require('express');
 const cors = require('cors');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -25,15 +25,20 @@ function authenticateJWT(req, res, next) {
   const authHeader = req.headers.authorization;
   if (authHeader) {
     const token = authHeader.split(' ')[1];
+    console.log('Token:', token); // Add this line for debugging
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) return res.sendStatus(403);
+      if (err) {
+        console.error('JWT Verification Error:', err);
+        return res.status(403).json({ error: 'Forbidden', message: 'Invalid token' });
+      }
       req.user = user;
       next();
     });
   } else {
-    res.sendStatus(401);
+    res.status(401).json({ error: 'Unauthorized', message: 'Authorization header missing' });
   }
 }
+
 
 /**
  * Route handler for user login.
@@ -65,6 +70,7 @@ async function handleUserLogin(req, res) {
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  */
+// Modify the user registration route to include the "recipes" field
 async function handleUserRegistration(req, res) {
   const { email, password } = req.body;
   try {
@@ -72,7 +78,10 @@ async function handleUserRegistration(req, res) {
     const existingUser = await usersCollection.findOne({ email });
     if (existingUser) return res.status(409).send('User already exists');
     const hashedPassword = await bcrypt.hash(password, 10);
-    await usersCollection.insertOne({ email, password: hashedPassword });
+
+    // Add an empty array for recipes when a new user is registered
+    await usersCollection.insertOne({ email, password: hashedPassword, recipes: [] });
+
     res.status(201).send('User registered successfully');
   } catch (error) {
     console.error('Error during registration:', error);
@@ -87,7 +96,26 @@ async function handleUserRegistration(req, res) {
  * @param {Object} res - The response object.
  */
 async function handleAddRecipe(req, res) {
-  
+  const { recipeName, mealType } = req.body;
+  const userId = req.user.userId;
+
+  try {
+    const usersCollection = req.db.collection('users');
+
+    const result = await usersCollection.updateOne(
+      { _id: new ObjectId(userId) },
+      { $push: { recipes: { recipeName, mealType } } }
+    );
+
+    if (result.modifiedCount === 1) {
+      res.status(201).json({ message: 'Recipe added successfully' });
+    } else {
+      res.status(404).json({ message: 'User not found or update failed' });
+    }
+  } catch (error) {
+    console.error('Error adding recipe:', error);
+    res.status(500).json({ message: 'Failed to add recipe' });
+  }
 }
 
 /**
@@ -97,7 +125,24 @@ async function handleAddRecipe(req, res) {
  * @param {Object} res - The response object.
  */
 async function handleGetRecipes(req, res) {
-  
+  const userId = req.user.userId; // Extract user ID from the JWT token
+
+  try {
+    const usersCollection = req.db.collection('users');
+
+    // Find the user by ID and retrieve their recipes array
+    const user = await usersCollection.findOne({ _id: userId });
+
+    if (user) {
+      const userRecipes = user.recipes || [];
+      res.status(200).json({ recipes: userRecipes });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error getting recipes:', error);
+    res.status(500).json({ message: 'Failed to get recipes' });
+  }
 }
 
 // Connecting to MongoDB and starting the server
