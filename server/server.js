@@ -25,7 +25,7 @@ function authenticateJWT(req, res, next) {
   const authHeader = req.headers.authorization;
   if (authHeader) {
     const token = authHeader.split(' ')[1];
-    console.log('Token:', token); // Add this line for debugging
+    console.log('Token:', token); // Logging for debugging purposes
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err) {
         console.error('JWT Verification Error:', err);
@@ -39,7 +39,6 @@ function authenticateJWT(req, res, next) {
   }
 }
 
-
 /**
  * Route handler for user login.
  * @async
@@ -51,10 +50,15 @@ async function handleUserLogin(req, res) {
   try {
     const usersCollection = req.db.collection('users');
     const user = await usersCollection.findOne({ email });
-    if (!user) return res.status(400).json({ message: 'Invalid email or password' });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) return res.status(400).json({ message: 'Invalid email or password' });
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ message: 'Login successful', token });
@@ -76,7 +80,11 @@ async function handleUserRegistration(req, res) {
   try {
     const usersCollection = req.db.collection('users');
     const existingUser = await usersCollection.findOne({ email });
-    if (existingUser) return res.status(409).send('User already exists');
+
+    if (existingUser) {
+      return res.status(409).send('User already exists');
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Add an empty array for recipes when a new user is registered
@@ -131,7 +139,7 @@ async function handleGetRecipes(req, res) {
     const usersCollection = req.db.collection('users');
 
     // Find the user by ID and retrieve their recipes array
-    const user = await usersCollection.findOne({ _id: userId });
+    const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
 
     if (user) {
       const userRecipes = user.recipes || [];
