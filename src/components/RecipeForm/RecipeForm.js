@@ -5,17 +5,7 @@ const RecipeForm = ({ onAddRecipe }) => {
     const [mealType, setMealType] = useState('');
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const newRecipe = {
-            name: recipeName,
-            mealType,
-        };
-
-        onAddRecipe(newRecipe);
-
-        setRecipeName('');
-        setMealType('');
+        
     };
 
     return (
