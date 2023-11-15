@@ -87,16 +87,7 @@ async function handleUserRegistration(req, res) {
  * @param {Object} res - The response object.
  */
 async function handleAddRecipe(req, res) {
-  const { name, mealType } = req.body;
-  const userId = req.user.userId;
-  try {
-    const recipesCollection = req.db.collection('recipes');
-    const result = await recipesCollection.insertOne({ name, mealType, userId });
-    res.status(201).json(result.ops[0]);
-  } catch (error) {
-    console.error('Error adding recipe:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
+  
 }
 
 /**
@@ -106,15 +97,7 @@ async function handleAddRecipe(req, res) {
  * @param {Object} res - The response object.
  */
 async function handleGetRecipes(req, res) {
-  const userId = req.user.userId;
-  try {
-    const recipesCollection = req.db.collection('recipes');
-    const recipes = await recipesCollection.find({ userId }).toArray();
-    res.status(200).json(recipes);
-  } catch (error) {
-    console.error('Error retrieving recipes:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
+  
 }
 
 // Connecting to MongoDB and starting the server
