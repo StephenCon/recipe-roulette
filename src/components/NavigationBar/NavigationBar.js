@@ -9,7 +9,10 @@ import { useNavigate } from 'react-router-dom';
 // Importing profile image from assets
 import profile_image from '../../assets/images/emptyprofile.png';
 
-// NavigationBar component definition
+/**
+ * NavigationBar component displaying the application navigation options.
+ * @returns {JSX.Element} - The rendered NavigationBar component.
+ */
 const NavigationBar = () => {
     // State to control whether the NavDropdown is shown or not
     const [show, setShow] = useState(false);
