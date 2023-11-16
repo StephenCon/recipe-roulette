@@ -3,21 +3,21 @@ import { Button, Modal } from 'react-bootstrap';
 import RecipeForm from '../RecipeForm/RecipeForm';
 import './RecipeList.css';
 
-const RecipeList = ({onEditRecipe, onDeleteRecipe }) => {
+const RecipeList = ({ onEditRecipe, onDeleteRecipe }) => {
     const [showModal, setShowModal] = useState(false);
     const [recipes, setRecipes] = useState([]);
 
     const fetchRecipes = async () => {
-        const token = localStorage.getItem('token');  // Assume the token is stored in local storage
+        const token = localStorage.getItem('token'); // Assume the token is stored in local storage
         try {
-            const response = await fetch('/recipes', {
+            const response = await fetch('http://localhost:3001/recipes', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
             if (response.ok) {
                 const data = await response.json();
-                setRecipes(data);
+                setRecipes(data.recipes); // Assuming the recipes array is nested under 'recipes' property
             } else {
                 console.error('Failed to fetch recipes:', await response.text());
             }
@@ -28,12 +28,12 @@ const RecipeList = ({onEditRecipe, onDeleteRecipe }) => {
 
     useEffect(() => {
         fetchRecipes();
-    }, []);  // Empty dependency array means this useEffect runs once, similar to componentDidMount
+    }, []); // Empty dependency array means this useEffect runs once, similar to componentDidMount
 
     const handleFormSubmit = async (newRecipe) => {
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch('/recipes', {
+            const response = await fetch('http://localhost:3001/recipes', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -72,9 +72,9 @@ const RecipeList = ({onEditRecipe, onDeleteRecipe }) => {
             ) : (
                 <div className="row">
                     {recipes.map((recipe, index) => (
-                        <div key={recipe.id} className="col-md-3 mb-4"> {/* Assuming each recipe has a unique id */}
+                        <div key={index} className="col-md-3 mb-4">
                             <div className="recipe-card p-3 border rounded">
-                                <h3 className="mb-2">{recipe.name}</h3>
+                                <h3 className="mb-2">{recipe.recipeName}</h3>
                                 <p><strong>Meal Type:</strong> {recipe.mealType}</p>
                                 <Button variant="outline-secondary" onClick={() => onEditRecipe(index)}>Edit</Button>
                                 <Button variant="outline-danger" onClick={() => onDeleteRecipe(index)}>Delete</Button>
