@@ -13,9 +13,13 @@ function App() {
             <hr className='hr' />
             <div className='container'>
                 <HeroSection />
+                <hr className='hr' />
                 <Features />
+                <hr className='hr' />
                 <HowItWorks />
+                <hr className='hr' />
                 <Testimonials />
+                <hr className='hr' />
                 <Footer />
             </div>
         </div>
