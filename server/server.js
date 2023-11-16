@@ -104,16 +104,34 @@ async function handleUserRegistration(req, res) {
  * @param {Object} res - The response object.
  */
 async function handleAddRecipe(req, res) {
-  const { recipeName, mealType } = req.body;
-  const userId = req.user.userId;
-
   try {
+    const { recipeName, mealType } = req.body;
+    const userId = req.user.userId;
+
+    // Log request body
+    console.log('Request body:', req.body);
+
+    // Log values before update query
+    console.log('User ID:', userId);
+    console.log('Recipe Name:', recipeName);
+    console.log('Meal Type:', mealType);
+
     const usersCollection = req.db.collection('users');
 
-    const result = await usersCollection.updateOne(
-      { _id: new ObjectId(userId) },
-      { $push: { recipes: { recipeName, mealType } } }
-    );
+    // Correct ObjectId conversion
+    const objectIdUserId = new ObjectId(userId);
+
+    // Log MongoDB update query
+    const updateQuery = {
+      _id: objectIdUserId,
+      $push: { recipes: { recipeName, mealType } }
+    };
+    console.log('MongoDB Update Query:', updateQuery);
+
+    const result = await usersCollection.updateOne({ _id: objectIdUserId }, { $push: { recipes: { recipeName, mealType } } });
+
+    // Log MongoDB update result
+    console.log('MongoDB Update Result:', result);
 
     if (result.modifiedCount === 1) {
       res.status(201).json({ message: 'Recipe added successfully' });
@@ -125,6 +143,8 @@ async function handleAddRecipe(req, res) {
     res.status(500).json({ message: 'Failed to add recipe' });
   }
 }
+
+
 
 /**
  * Route handler for getting recipes.
