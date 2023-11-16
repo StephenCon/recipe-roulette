@@ -34,19 +34,42 @@ const SignupForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="signup-form">
-            <div className="form-group">
-                <input type="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" />
+            <div className="mb-3">
+                <label htmlFor="email" className="form-label">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder='Enter your email'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className='form-control'
+                />
             </div>
-            <div className="form-group">
-                <input type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" />
+            <div className="mb-3">
+                <label htmlFor="password" className="form-label">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder='Enter your password'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className='form-control'
+                />
             </div>
-            <button type="submit" className="btn btn-primary">Sign Up</button>
-
-            <button className="btn btn-lg btn-block btn-primary"
-                type="submit"><i className="fab fa-google me-2"></i> Sign in with google</button>
-            <button className="btn btn-lg btn-block btn-primary mb-2"
-                type="submit"><i className="fab fa-facebook-f me-2"></i>Sign in with facebook</button>
+            <div className="mb-3">
+                <button type="submit" className="btn btn-primary w-100">Sign Up</button>
+            </div>
+            <div className="mb-3 text-center border-bottom"></div>
+            <div className="mb-3 d-flex justify-content-between">
+                <button className="btn btn-danger me-2">
+                    <i className="fab fa-google me-2"></i> Sign up with Google
+                </button>
+                <button className="btn btn-primary">
+                    <i className="fab fa-facebook-f me-2"></i> Sign up with Facebook
+                </button>
+            </div>
         </form>
+
     );
 };
 

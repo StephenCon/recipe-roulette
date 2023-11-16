@@ -51,29 +51,40 @@ const LoginForm = () => {
     // Render the login form
     return (
         <form onSubmit={handleSubmit} className='login-form'>
-            <div className='form-group'>
+            <div className='mb-3'>
+                <label htmlFor="email" className="form-label">Email</label>
                 <input
                     type="email"
-                    placeholder='Email'
+                    id="email"
+                    placeholder='Enter your email'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className='form-control'
                 />
             </div>
-            <div className='form-group'>
+            <div className='mb-3'>
+                <label htmlFor="password" className="form-label">Password</label>
                 <input
                     type="password"
-                    placeholder='Password'
+                    id="password"
+                    placeholder='Enter your password'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className='form-control'
                 />
             </div>
-            <button type="submit">Login</button>
-            <button className="btn btn-lg btn-block btn-primary"
-                type="submit"><i className="fab fa-google me-2"></i> Log in with google</button>
-            <button className="btn btn-lg btn-block btn-primary mb-2"
-                type="submit"><i className="fab fa-facebook-f me-2"></i>Log in with facebook</button>
+            <div className="mb-3">
+                <button type="submit" className="btn btn-primary w-100">Login</button>
+            </div>
+            <div className="mb-3 text-center border-bottom"></div>
+            <div className="mb-3 d-flex justify-content-between">
+                <button className="btn btn-danger me-2">
+                    <i className="fab fa-google me-2"></i> Log in with Google
+                </button>
+                <button className="btn btn-primary">
+                    <i className="fab fa-facebook-f me-2"></i> Log in with Facebook
+                </button>
+            </div>
         </form>
     );
 };
