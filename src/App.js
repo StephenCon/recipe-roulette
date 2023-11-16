@@ -1,27 +1,30 @@
-// External imports
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// src/App.js
 
-// Internal imports
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import TokenChecker from './components/TokenChecker';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
-import './App.css';  // Simplified the import path as it's relative to the current file
+import Login from './pages/Login'; // Assuming you have a Login page
 
 /**
  * Main application component.
- * Sets up routing for the application.
+ * Sets up client-side routing and includes the TokenChecker component.
  */
 function App() {
     return (
         <div className="App">
             {/* Set up client-side routing using BrowserRouter */}
-            <BrowserRouter>
+            <Router>
+                {/* TokenChecker is added here */}
+                <TokenChecker />
                 {/* Define application routes and corresponding components */}
                 <Routes>
-                    <Route path="/" element={<Home />} />         {/* Home route */}
-                    <Route path="/dashboard" element={<Dashboard />} /> {/* Dashboard route */}
+                    <Route path="/" element={<Home />} />                 {/* Home route */}
+                    <Route path="/dashboard" element={<Dashboard />} />   {/* Dashboard route */}
+                    <Route path="/login" element={<Login />} />           {/* Login route */}
                 </Routes>
-            </BrowserRouter>
+            </Router>
         </div>
     );
 }
