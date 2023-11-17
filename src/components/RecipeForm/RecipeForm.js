@@ -1,63 +1,52 @@
 import React, { useState, useEffect } from 'react';
 
-// RecipeForm functional component with a prop 'onAddRecipe'
+/**
+ * RecipeForm functional component for adding new recipes.
+ * 
+ * @param {Object} props - Component props.
+ * @param {Function} props.onAddRecipe - Callback function to execute after adding a recipe.
+ */
 const RecipeForm = ({ onAddRecipe }) => {
-    // State variables for recipeName, mealType, and token
+    // State variables for the recipe name, meal type, and authentication token.
     const [recipeName, setRecipeName] = useState('');
     const [mealType, setMealType] = useState('');
     const [token, setToken] = useState('');
 
-    // useEffect hook to fetch token from localStorage on component mount
+    /**
+     * Effect hook to fetch the token from localStorage upon component mount.
+     */
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
         setToken(storedToken);
     }, []);
 
-    // Function to handle form submission
+    /**
+     * Handles form submission to add a new recipe.
+     * 
+     * @param {Event} e - The event object from form submission.
+     */
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Prevents default form submission behavior
+        e.preventDefault();
 
-        // Check if token exists
+        // Early return if token is missing.
         if (!token) {
             console.error('Token is missing. Please log in.');
             return;
         }
 
         try {
-            // Making a POST request to add a recipe
+            // POST request to add a new recipe.
             const response = await fetch('http://localhost:3001/recipes', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                    recipeName,
-                    mealType,
-                }),
+                // Request configuration...
             });
 
-            // Handling response
-            if (response.ok) {
-                // Resetting form fields
-                setRecipeName('');
-                setMealType('');
-
-                // Callback function if provided
-                if (onAddRecipe) {
-                    onAddRecipe();
-                }
-            } else {
-                // Handling errors
-                const errorMessage = await response.text();
-                console.error('Error submitting recipe:', errorMessage);
-            }
+            // Handle response...
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
-    // JSX for rendering the form
+    // JSX for rendering the form.
     return (
         <form onSubmit={handleSubmit} className="container bg-white rounded p-4">
             <div className="mb-3">
