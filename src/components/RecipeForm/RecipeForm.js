@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from 'react';
 
+// RecipeForm functional component with a prop 'onAddRecipe'
 const RecipeForm = ({ onAddRecipe }) => {
+    // State variables for recipeName, mealType, and token
     const [recipeName, setRecipeName] = useState('');
     const [mealType, setMealType] = useState('');
     const [token, setToken] = useState('');
 
+    // useEffect hook to fetch token from localStorage on component mount
     useEffect(() => {
-        // Fetch the token from localStorage on component mount
         const storedToken = localStorage.getItem('token');
         setToken(storedToken);
     }, []);
 
+    // Function to handle form submission
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Prevents default form submission behavior
 
+        // Check if token exists
         if (!token) {
             console.error('Token is missing. Please log in.');
             return;
         }
 
         try {
+            // Making a POST request to add a recipe
             const response = await fetch('http://localhost:3001/recipes', {
                 method: 'POST',
                 headers: {
@@ -32,14 +37,18 @@ const RecipeForm = ({ onAddRecipe }) => {
                 }),
             });
 
+            // Handling response
             if (response.ok) {
+                // Resetting form fields
                 setRecipeName('');
                 setMealType('');
 
+                // Callback function if provided
                 if (onAddRecipe) {
                     onAddRecipe();
                 }
             } else {
+                // Handling errors
                 const errorMessage = await response.text();
                 console.error('Error submitting recipe:', errorMessage);
             }
@@ -47,6 +56,8 @@ const RecipeForm = ({ onAddRecipe }) => {
             console.error('Error:', error);
         }
     };
+
+    // JSX for rendering the form
     return (
         <form onSubmit={handleSubmit} className="container bg-white rounded p-4">
             <div className="mb-3">
